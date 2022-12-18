@@ -11,6 +11,7 @@ CSnake::CSnake(CRect r, char _c /*=' '*/) : CFramedWindow(r, _c)
 
 bool CSnake::handleEvent(int key)
 {
+  //Clocker if there is no button pressed down
   if(!game_pause && key == ERR)
   {
     clock++;
@@ -22,6 +23,7 @@ bool CSnake::handleEvent(int key)
     }
   }
 
+  //Pause menu turning on/off
   if(tolower(key) == 'p') 
   {
     game_pause = !game_pause;
@@ -33,6 +35,7 @@ bool CSnake::handleEvent(int key)
     return true;
   }
 
+  //Help menu turning on/off if game is paused
   if(tolower(key) == 'h' && game_pause) 
   {
     game_help = !game_help;
@@ -42,6 +45,7 @@ bool CSnake::handleEvent(int key)
     return true;
   }
 
+  //Game reset
   if(tolower(key) == 'r') 
   {
     gameReset();
@@ -51,6 +55,7 @@ bool CSnake::handleEvent(int key)
     return true;
   }
 
+  //Changing move diroection for Snake
   if(!game_pause && !game_end)
   {
     if(key == KEY_UP)
