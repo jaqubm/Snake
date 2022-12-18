@@ -208,6 +208,7 @@ void CSnake::gameReset()
 
   direction = KEY_RIGHT;
 
+  game_speed = 20;
   lvl = 0;
 
   snake_parts.clear();
