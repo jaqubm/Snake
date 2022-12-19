@@ -3,9 +3,7 @@
 CSnake::CSnake(CRect r, char _c /*=' '*/) : CFramedWindow(r, _c)
 {
   srand(time(NULL));
-
   gameReset();
-
   game_pause = true;
 }
 
@@ -17,8 +15,8 @@ bool CSnake::handleEvent(int key)
     clock++;
     if(game_speed <= clock) 
     {
+      gameMove();
       clock = 0;
-
       return true;
     }
   }
@@ -27,11 +25,8 @@ bool CSnake::handleEvent(int key)
   if(tolower(key) == 'p') 
   {
     game_pause = !game_pause;
-
     if(game_help) game_help = false;
-
     clock = 0;
-
     return true;
   }
 
@@ -39,9 +34,7 @@ bool CSnake::handleEvent(int key)
   if(tolower(key) == 'h' && game_pause) 
   {
     game_help = !game_help;
-
     clock = 0;
-
     return true;
   }
 
@@ -49,9 +42,7 @@ bool CSnake::handleEvent(int key)
   if(tolower(key) == 'r') 
   {
     gameReset();
-
     clock = 0;
-
     return true;
   }
 
@@ -61,24 +52,28 @@ bool CSnake::handleEvent(int key)
     if(key == KEY_UP)
     {
       if(direction != KEY_DOWN) direction = key;
+      gameMove();
       clock = 0;
       return true;
     }
     else if(key == KEY_LEFT)
     {
       if(direction != KEY_RIGHT) direction = key;
+      gameMove();
       clock = 0;
       return true;
     }
     else if(key == KEY_DOWN)
     {
       if(direction != KEY_UP) direction = key;
+      gameMove();
       clock = 0;
       return true;
     }
     else if(key == KEY_RIGHT)
     {
       if(direction != KEY_LEFT) direction = key;
+      gameMove();
       clock = 0;
       return true;
     }
@@ -90,12 +85,6 @@ bool CSnake::handleEvent(int key)
 void CSnake::paint()
 {
   CFramedWindow::paint();
-
-  if(!game_pause && gameMove())
-  {
-    game_pause = true;
-    game_end = true;
-  }
 
   //Food
   gotoyx(food.y + geom.topleft.y, food.x + geom.topleft.x);
@@ -182,6 +171,8 @@ bool CSnake::gameMove()
     {
       if(snake_parts[0].x == snake_parts[i].x && snake_parts[0].y == snake_parts[i].y) 
       {
+        game_pause = true;
+        game_end = true;
         return true;
       }
     }
